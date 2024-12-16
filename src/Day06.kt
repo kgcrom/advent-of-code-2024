@@ -1,7 +1,7 @@
-class Point(val x: Int, val y: Int) {
+class Point06(val x: Int, val y: Int) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
-        if (other !is Point) return false
+        if (other !is Point06) return false
         return x == other.x && y == other.y
     }
 
@@ -13,7 +13,7 @@ class Point(val x: Int, val y: Int) {
         return x in 0 until maxX && y in 0 until maxY
     }
 
-    fun move(moveX: Int, moveY: Int) = Point(moveX, moveY)
+    fun move(moveX: Int, moveY: Int) = Point06(moveX, moveY)
 }
 
 enum class Direction06(val dx: Int, val dy: Int) {
@@ -34,23 +34,23 @@ enum class Direction06(val dx: Int, val dy: Int) {
 }
 
 fun main() {
-    fun findGuard(input: List<String>): Point {
+    fun findGuard(input: List<String>): Point06 {
         for (y in input.indices) {
             val x = input[y].indexOf('^')
             if (x != -1) {
-                return Point(x, y)
+                return Point06(x, y)
             }
         }
         throw IllegalArgumentException("Guard not found")
     }
 
-    fun footprint(input: List<String>, guard: Point): Set<Point> {
-        val set = mutableSetOf<Point>()
+    fun footprint(input: List<String>, guard: Point06): Set<Point06> {
+        val set = mutableSetOf<Point06>()
         var moveGuard = guard
         var direction = Direction06.UP
         while (moveGuard.isInMap(input[0].length, input.size)) {
             set.add(moveGuard)
-            val next = Point(moveGuard.x + direction.dx, moveGuard.y + direction.dy)
+            val next = Point06(moveGuard.x + direction.dx, moveGuard.y + direction.dy)
             if (!next.isInMap(input[0].length, input.size)) {
                 break
             }
@@ -70,7 +70,7 @@ fun main() {
 
     fun part2(input: List<String>): Int {
         val grid = input.map { it.toCharArray().toMutableList() }
-        val set = mutableSetOf<Pair<Point, Direction06>>()
+        val set = mutableSetOf<Pair<Point06, Direction06>>()
         val guard = findGuard(input)
         var count = 0
 
@@ -79,7 +79,7 @@ fun main() {
         var originalGrid: Char
 
         for (point in footPrint) {
-            var moveGuard = Point(guard.x, guard.y)
+            var moveGuard = Point06(guard.x, guard.y)
             var direction = Direction06.UP
             originalGrid = grid[point.y][point.x]
             grid[point.y][point.x] = '#'
@@ -89,7 +89,7 @@ fun main() {
                     count += 1
                     break
                 }
-                val next = Point(moveGuard.x + direction.dx, moveGuard.y + direction.dy)
+                val next = Point06(moveGuard.x + direction.dx, moveGuard.y + direction.dy)
                 if (!next.isInMap(input[0].length, input.size)) {
                     break
                 }
